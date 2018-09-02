@@ -22,6 +22,7 @@ env:
   -JDK=Java9
   -JDK=Java10
   -JDK=Java11-EA
+  -JDK=Java12-EA
 
 matrix:
   fast_finish: true
@@ -51,9 +52,9 @@ matrix:
 
     - jdk: oraclejdk8
       env:
-        - DESC="compile jmh-tests and performance-tests"
+        - DESC="compile performance-tests"
         - JDK=Java8
-        - CMD="mvn install --projects jmh-tests,performance-tests --also-make --activate-profiles all -DskipTests=true"
+        - CMD="mvn install --projects performance-tests --also-make --activate-profiles all -DskipTests=true"
 
     - jdk: oraclejdk9
       env:
@@ -73,8 +74,24 @@ matrix:
         - JDK=Java11-EA
         - CMD=""
 
+    - jdk: oraclejdk8
+      env:
+        - DESC="Java 12 regression"
+        - JDK=Java12-EA
+        - CMD=""
+
   allow_failures:
-    - env: JDK=Java11-EA
+  - jdk: oraclejdk8
+    env:
+      - DESC="Java 11 regression"
+      - JDK=Java11-EA
+      - CMD=""
+
+  - jdk: oraclejdk8
+    env:
+      - DESC="Java 12 regression"
+      - JDK=Java12-EA
+      - CMD=""
 
 script:
   - ./.travis-command-ea-builds.sh
